@@ -6,7 +6,12 @@ import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.app.ProgressDialog;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -51,9 +56,9 @@ import java.util.Map;
 
 public class MainPageActivity extends AppCompatActivity {
 
-    TextView tv_lat, tv_lon, tv_altitude, tv_accuracy, tv_speed, tv_sensor, tv_updates, tv_address, tv_countwhereHaveIBeen, tv_user;
+    TextView tv_lat, tv_lon, tv_altitude, tv_accuracy, tv_speed, tv_sensor, tv_updates, tv_address, tv_countwhereHaveIBeen, tv_user, tv_connected;
     Switch sw_locationupdates, sw_gps;
-    Button btn_showWhereIhaveBeen, btn_showMap;
+    Button btn_showWhereIhaveBeen, btn_showMap, btn_bluetooth;
 
     boolean updateOn = false;
 
@@ -66,7 +71,6 @@ public class MainPageActivity extends AppCompatActivity {
     LocationRequest locationRequest;
 
     LocationCallback locationCallBack;
-
 
 
 
@@ -86,6 +90,8 @@ public class MainPageActivity extends AppCompatActivity {
         tv_address = findViewById(R.id.tv_address);
         tv_countwhereHaveIBeen = findViewById(R.id.tv_countwhereHaveIBeen);
         tv_user = findViewById(R.id.tv_user);
+        tv_connected = findViewById(R.id.tv_connected);
+
 
         tv_user.setText(SharedPrefManager.getInstance(this).getUserName());
 
@@ -94,6 +100,7 @@ public class MainPageActivity extends AppCompatActivity {
 
         btn_showWhereIhaveBeen = findViewById(R.id.btn_showwhereIhaveBeen);
         btn_showMap = findViewById(R.id.btn_showMap);
+        btn_bluetooth = findViewById(R.id.btn_bluetooth);
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
@@ -101,9 +108,9 @@ public class MainPageActivity extends AppCompatActivity {
 
 
         locationRequest = LocationRequest.create();
-        locationRequest.setInterval(60000);
+        locationRequest.setInterval(30000);
 
-        locationRequest.setFastestInterval(30000);
+        locationRequest.setFastestInterval(10000);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY); //behöver vara High som default om Callback ska fungera
 
         locationCallBack = new LocationCallback() {
@@ -112,7 +119,7 @@ public class MainPageActivity extends AppCompatActivity {
                 super.onLocationResult(locationResult);
                 Location location = locationResult.getLastLocation();
                 updateGPS();
-                showLocat();
+                // showLocat();
 
             }
         };
@@ -130,6 +137,14 @@ public class MainPageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(MainPageActivity.this, MapsActivity.class);
+                startActivity(i);
+            }
+        });
+
+        btn_bluetooth.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainPageActivity.this, BlueActivity.class);
                 startActivity(i);
             }
         });
@@ -163,12 +178,21 @@ public class MainPageActivity extends AppCompatActivity {
         });
 
 
-        startLocationUpdates();
+        //startLocationUpdates();
         //updateGPS();
         // craschar appen om den aldrig tagemot en Location någonsin förut
 
 
+        ///////////////////////////////////////////////////////////////////////////////
+        ////  BLUETOOTH CONNECT TEST//////////////////////////
+        //////////////////////////////////////////////////////
 
+       IntentFilter filter1 = new IntentFilter(BluetoothDevice.ACTION_ACL_CONNECTED);
+        IntentFilter filter2 = new IntentFilter(BluetoothDevice.ACTION_ACL_DISCONNECT_REQUESTED);
+        IntentFilter filter3 = new IntentFilter(BluetoothDevice.ACTION_ACL_DISCONNECTED);
+        this.registerReceiver(mReceiver, filter1);
+        this.registerReceiver(mReceiver, filter2);
+        this.registerReceiver(mReceiver, filter3);
     }
 
     @Override
@@ -349,9 +373,7 @@ public class MainPageActivity extends AppCompatActivity {
 
     private void showLocat(){
         final String username = SharedPrefManager.getInstance(this).getUserName();
-        final String lat = "hej";
-        final String lon = "hej";
-        final String date = "hej";
+
 
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.URL_SHOW_LOCATIONS,
@@ -362,11 +384,11 @@ public class MainPageActivity extends AppCompatActivity {
                         try {
                             JSONObject obj = new JSONObject(response);
                             if(!obj.getBoolean("error")){
-                               /* SharedPrefManager.getInstance(getApplicationContext())
+                               SharedPrefManager.getInstance(getApplicationContext())
                                         .userLocat(obj.getInt("id"),
                                                 obj.getString("lat"),
                                                 obj.getString("lon"),
-                                                obj.getString("date")); */
+                                                obj.getString("date"));
 
 
 
@@ -390,9 +412,6 @@ public class MainPageActivity extends AppCompatActivity {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
                 params.put("username", username);
-                params.put("lat", lat);
-                params.put("lon", lon);
-                params.put("date", date);
                 return params;
             }
         };
@@ -401,4 +420,39 @@ public class MainPageActivity extends AppCompatActivity {
 
 
     }
+
+    ////////////////////////////////////////////////////////////
+    /////////////////// BLUETOOTHTEST //////////////////////
+    ////////////////////////////////////////////////////////
+
+    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+
+            if (BluetoothDevice.ACTION_FOUND.equals(action)) {
+                Toast.makeText(getApplicationContext(),"Device Found", Toast.LENGTH_LONG).show();
+            }
+            else if (BluetoothDevice.ACTION_ACL_CONNECTED.equals(action)) {
+                Toast.makeText(getApplicationContext(),"Device is Connected", Toast.LENGTH_LONG).show();
+                tv_connected.setText("connected");
+                startLocationUpdates();
+
+            }
+            else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
+                Toast.makeText(getApplicationContext(),"Done Searching", Toast.LENGTH_LONG).show();
+            }
+            else if (BluetoothDevice.ACTION_ACL_DISCONNECT_REQUESTED.equals(action)) {
+                Toast.makeText(getApplicationContext(),"Device is Disconnecting", Toast.LENGTH_LONG).show();
+            }
+            else if (BluetoothDevice.ACTION_ACL_DISCONNECTED.equals(action)) {
+                Toast.makeText(getApplicationContext(),"Device Disconnected", Toast.LENGTH_LONG).show();
+                tv_connected.setText("Disconnected");
+                stopLocationUpdates();
+            }
+        }
+    };
+
+
 }

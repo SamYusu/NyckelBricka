@@ -30,6 +30,8 @@ public class SharedPrefManager {
         return instance;
     }
 
+
+
     public boolean userLogin(int id, String username, String email){
         SharedPreferences sharedPreferences = ctx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();

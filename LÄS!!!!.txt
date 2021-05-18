@@ -1,22 +1,24 @@
-Denna App är inte 100 klar. Men den fungerar.
+Denna App är är nära 100% klar, Alla stora funktioner fungerar.
+Det som saknas är UI uppdateringar (göra saker finare) och ett par
+"quality of life improvments" för att göra att allt körs bättre.
 
 För att få den att fungera måste du lägga till din egen Google-API nyckel i 
 "values". Du måste även lägga till url för din databas i "constants" classen.
 
-Databasens php skript för kommunikation ligger i mappen androidDatabase
-
-Bluetooth funktionen har inte lagts till än. Precis nu så håller jag på med att
-försöka få "POST" funktionen för php skriptet "showLocation.php" att fungera till 
-100%. den har ett mindre problem där den vägrar att köra igång om inte "updateGPS"
-funktionen är igång samtidigt. Jag gissar att det beror på hur jag lagt upp 
-"SharedPrefManager" classen.
+Databasens php skript för kommunikation ligger i mappen "androidDatabase"
+SQL koden för att göra tabellerna ligger i mappen "sqlDatabase"
 
 Databasen körs över raspberry pi med mariadb och php skriptet körs över apache. men
 det går att använda det över windows också om man vill, enklaste sättet är att använda
-xampp och slå igång mysql och apache. kom ihåg att lägga php skripten i mappen "htdocs"
+xampp på windows och slå igång mysql och apache. kom ihåg att lägga php skripten i mappen "htdocs"
 på windows.
+
+Du kan välja själv om du vill kontrollera databasen över "phpmyadmin" som kommer installerat med xampp
+på windows eller om du vill använda kommandotolken.
 
 Alla PHP-skript är testade med en REST Client och funkar bra!
 
 Dia-filerna är irrelevanta. det är hur vi vill att databasen ser ut om man hade tid 
 att implementera allt man ville (precis nu är även Dia-filerna inte klara).
+
+För att starta uppdateringarna från tracking appen så måste bluetooth vara igång.

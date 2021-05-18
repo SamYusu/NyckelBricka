@@ -49,8 +49,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        MyApplication myApplication = (MyApplication)getApplicationContext();
-        savedLocations = myApplication.getMyLocations();
+       // MyApplication myApplication = (MyApplication)getApplicationContext();
+        //savedLocations = myApplication.getMyLocations();  //Lokalt sätt att hitta senaste positionen
         lat = Double.parseDouble(tempLat);
         lon = Double.parseDouble(tempLon);
         date = SharedPrefManager.getInstance(this).getDate();
@@ -75,7 +75,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
 
         LatLng lastLocation = sydney;
-        for (Location location: savedLocations){
+
             LatLng latLng = new LatLng(lat, lon);
             MarkerOptions markerOptions = new MarkerOptions();
             markerOptions.position(latLng);
@@ -83,7 +83,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             markerOptions.title(date);
             mMap.addMarker(markerOptions);
             lastLocation = latLng;
-        }
+
 
         float zoomlevel = 16.0f;
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(lastLocation, zoomlevel));

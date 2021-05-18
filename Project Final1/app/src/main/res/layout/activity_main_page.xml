@@ -7,6 +7,26 @@
     tools:context=".MainActivity">
 
     <TextView
+        android:id="@+id/tv_connected"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="none"
+        app:layout_constraintStart_toEndOf="@+id/tv_connectedLabel"
+        app:layout_constraintTop_toTopOf="@+id/tv_connectedLabel" />
+
+    <TextView
+        android:id="@+id/tv_connectedLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginLeft="50dp"
+        android:text="connected:"
+        app:layout_constraintBottom_toTopOf="@+id/divider"
+        app:layout_constraintStart_toEndOf="@+id/tv_speed"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.719" />
+
+    <TextView
         android:id="@+id/tv_user"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -215,7 +235,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="9dp"
-        android:text="BT under construction"
+        android:text="BT Managment"
+        app:layout_constraintBottom_toTopOf="@id/btn_showwhereIhaveBeen"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_labelwhereHaveIBeen" />
@@ -226,6 +247,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="9dp"
         android:text="Lista på ställen"
+        app:layout_constraintBottom_toTopOf="@id/btn_showMap"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_bluetooth" />
@@ -236,6 +258,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="9dp"
         android:text="Visa Karta"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_showwhereIhaveBeen" />

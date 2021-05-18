@@ -50,6 +50,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 userLogin();
+                showLocat();
             }
         });
 
@@ -104,7 +105,50 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
+    private void showLocat(){
+        final String username = et_loginUserName.getText().toString().trim();
 
+        loginProgressDialog.show();
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.URL_SHOW_LOCATIONS,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        loginProgressDialog.dismiss();
+                        try {
+                            JSONObject obj = new JSONObject(response);
+                            if(!obj.getBoolean("error")){
+                                SharedPrefManager.getInstance(getApplicationContext())
+                                        .userLocat(obj.getInt("id"),
+                                                obj.getString("lat"),
+                                                obj.getString("lon"),
+                                                obj.getString("date"));
+
+
+                            }else{
+                                Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_LONG).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                loginProgressDialog.dismiss();
+
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("username", username);
+                return params;
+            }
+        };
+
+        RequestHandler.getInstance(this).addToRequestQueue(stringRequest);
+    }
 
 
 }

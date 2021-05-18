@@ -20,7 +20,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AndroidPHPMySQL"
         android:usesCleartextTraffic="true">
-        <activity android:name=".BlueActivity"></activity>
+        <activity android:name=".BlueActivity" />
         <activity android:name=".ShowSavedLocations" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
