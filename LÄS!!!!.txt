@@ -22,3 +22,10 @@ Dia-filerna är irrelevanta. det är hur vi vill att databasen ser ut om man had
 att implementera allt man ville (precis nu är även Dia-filerna inte klara).
 
 För att starta uppdateringarna från tracking appen så måste bluetooth vara igång.
+
+Bluetooth som är tillagt är en prototyp funktion och testar bara så att allt fungerar.
+I framtiden så kommer den att bytas ut mot BLE service. Precis nu funkar den och visar
+att det går att ta emot och skicka information till brickan som "trackas".
+
+Arduino koden ligger i filen "arduinoBadgeSpeak" som  är i formatet ino. Denna kod
+är lite förändrad från gruppkoden där en slinga är bortaggen.
