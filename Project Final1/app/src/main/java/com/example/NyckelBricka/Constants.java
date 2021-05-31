@@ -2,7 +2,7 @@ package com.example.NyckelBricka;
 
 public class Constants {
 
-    private static final String ROOT_URL = "URL Here";
+    private static final String ROOT_URL = "YourURLHere;
 
     public static final String URL_REGISTER = ROOT_URL + "registerUser2.php";
     public static final String URL_LOGIN = ROOT_URL + "userLogin.php";

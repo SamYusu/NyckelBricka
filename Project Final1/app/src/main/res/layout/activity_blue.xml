@@ -6,38 +6,35 @@
     android:layout_height="match_parent"
     tools:context=".BlueActivity">
 
+
     <Button
-        android:id="@+id/btn_bluetoothEnable"
+        android:id="@+id/switchlight"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="På/Av"
+        android:text="Högtalare"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/btn_BTenableDiscovery"/>
-
-    <Button
-        android:id="@+id/btn_BTenableDiscovery"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hitta Bluetooth"
-        app:layout_constraintEnd_toStartOf="@+id/btn_bluetoothEnable"
-        app:layout_constraintStart_toEndOf="@+id/btn_findUnpairedDevice"
-        app:layout_constraintTop_toTopOf="@+id/btn_findUnpairedDevice" />
-
-    <Button
-        android:id="@+id/btn_findUnpairedDevice"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Pair"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/tv_connected"
+        android:gravity="center"/>
 
-    <ListView
-        android:id="@+id/lv_newDevices"
-        android:layout_width="match_parent"
-        android:layout_height="420dp"
-        android:layout_below="@+id/btn_BTenableDiscovery"
-        app:layout_constraintTop_toBottomOf="@+id/btn_BTenableDiscovery"
-        tools:layout_editor_absoluteX="114dp" />
+    <TextView
+        android:id="@+id/tv_connected"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/switchlight"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:gravity="center"/>
+
+    <TextView
+        android:id="@+id/response"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
