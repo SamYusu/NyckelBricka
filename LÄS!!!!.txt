@@ -29,3 +29,7 @@ att det går att ta emot och skicka information till brickan som "trackas".
 
 Arduino koden ligger i filen "arduinoBadgeSpeak" som  är i formatet ino. Denna kod
 är lite förändrad från gruppkoden där en slinga är bortaggen.
+
+Notera att när du letar efter din "tile" så ska du använda "BlueActivity" sidan som kan
+hittas under knappen "BTManagment", där kan du även tillkalla högtaleren om du får kontakt
+med brickan.
