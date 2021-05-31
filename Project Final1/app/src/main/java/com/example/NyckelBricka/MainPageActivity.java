@@ -72,6 +72,8 @@ public class MainPageActivity extends AppCompatActivity {
 
     LocationCallback locationCallBack;
 
+    int connected = 0;
+
 
 
 
@@ -91,6 +93,8 @@ public class MainPageActivity extends AppCompatActivity {
         tv_countwhereHaveIBeen = findViewById(R.id.tv_countwhereHaveIBeen);
         tv_user = findViewById(R.id.tv_user);
         tv_connected = findViewById(R.id.tv_connected);
+
+        tv_connected.setText("Disconnected");
 
 
         tv_user.setText(SharedPrefManager.getInstance(this).getUserName());
@@ -144,6 +148,10 @@ public class MainPageActivity extends AppCompatActivity {
         btn_bluetooth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                /*if(tv_connected.getText().toString().equals("connected")){
+                    BlueActivity blueActivity = new BlueActivity();
+                    blueActivity.cancelBluetooth();
+                }*/
                 Intent i = new Intent(MainPageActivity.this, BlueActivity.class);
                 startActivity(i);
             }
@@ -437,6 +445,7 @@ public class MainPageActivity extends AppCompatActivity {
             else if (BluetoothDevice.ACTION_ACL_CONNECTED.equals(action)) {
                 Toast.makeText(getApplicationContext(),"Device is Connected", Toast.LENGTH_LONG).show();
                 tv_connected.setText("connected");
+                connected = 1;
                 startLocationUpdates();
 
             }
@@ -449,10 +458,20 @@ public class MainPageActivity extends AppCompatActivity {
             else if (BluetoothDevice.ACTION_ACL_DISCONNECTED.equals(action)) {
                 Toast.makeText(getApplicationContext(),"Device Disconnected", Toast.LENGTH_LONG).show();
                 tv_connected.setText("Disconnected");
+                connected = 0;
                 stopLocationUpdates();
             }
         }
     };
 
+
+    /*public boolean isConnected(){
+        if(connected == 1){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }*/
 
 }

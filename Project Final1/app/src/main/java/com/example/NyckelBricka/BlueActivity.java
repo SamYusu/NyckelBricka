@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.Manifest;
+import android.app.Application;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
@@ -69,10 +70,11 @@ public class BlueActivity extends AppCompatActivity {
             }
         });
 
+       // cancelBluetooth();
 
         bta = BluetoothAdapter.getDefaultAdapter();
 
-        //if bluetooth is not enabled then create Intent for user to turn it on
+
         if(!bta.isEnabled()){
             Intent enableBTIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableBTIntent, REQUEST_ENABLE_BT);
@@ -94,7 +96,7 @@ public class BlueActivity extends AppCompatActivity {
 
         if(bta.isEnabled()){
             //mmsocket = null;
-            //attempt to connect to bluetooth module
+
             BluetoothSocket tmp = null;
             mmDevice = bta.getRemoteDevice(MODULE_MAC);
 
@@ -135,7 +137,18 @@ public class BlueActivity extends AppCompatActivity {
         }
     }
 
+    /*public void cancelBluetooth(){
+        boolean bluetooth = false;
+        MainPageActivity mainPageActivity = new MainPageActivity();
+        if(mainPageActivity.isConnected() == true){
+            btt.cancel();
+        }
 
+    }*/
 
-
+    /*@Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        btt.cancel();
+    }*/
 }
